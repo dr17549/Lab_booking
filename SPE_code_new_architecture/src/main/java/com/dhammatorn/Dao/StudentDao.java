@@ -26,7 +26,7 @@ public class StudentDao {
             {
                 // automatically put = command D
                 put(1, new Student(1, "John", "Computer Science"));
-                put(2, new Student(2, "Dave", "Electrical Engineering"));
+               // put(2, new Student(2, "Dave", "Electrical Engineering"));
             }
         };
     }

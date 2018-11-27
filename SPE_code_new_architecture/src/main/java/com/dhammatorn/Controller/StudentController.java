@@ -51,6 +51,20 @@ public class StudentController {
         studentService.updateStudent(student);
     }
 
+    @GetMapping(value = "/index")
+    public String index() {
+        return "index";
+    }
+
+    @GetMapping(value = "/display")
+    public String display() {
+        return "display";
+    }
+
+    @GetMapping("/register")
+        public String register(){
+            return "register";
+        }
 
 
 }
