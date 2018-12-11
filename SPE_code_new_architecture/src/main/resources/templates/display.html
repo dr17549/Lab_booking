@@ -2,25 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <html>
 <head>
+    <link rel="stylesheet" media="screen" th:href="@{/css/display.css}"/>
     <title>All Students </title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-</head>
-<p> Displaying all students </p>
-<body>
-<div class="mypanel"></div>
-
-<script>
-
+    <script>
     $.getJSON('http://localhost:8080/students', function(data) {
+    for(let i = 0; i < data.length; i++){
+        var text = `<tr><td> ${data[i].id}</td>
+                   <td> ${data[i].name}</td>
+                   <td> ${data[i].lastname}</td>
+                   <td> ${data[i].course}</td>
+                   <td> ${data[i].email}</td>
+                   <td> ${data[i].seatNo}</td>
+                   <td> ${data[i].dateAndTime}</td>
+                   </tr>`
+        $(".student").append(text);
+    }
 
-        var text = `Date: ${data[0].id}<br>
-                    Time: ${data[0].name}<br>
-                    Course: ${data[0].course}`
-
-        $(".mypanel").html(text);
     });
+</script>
+</head>
+<h3> Current Booking Slots </h3>
+<body onload = "onLoad();">
+<div class="mypanel"></div>
+<table class = "student">
+    <thead>
+    <tr>
+        <th> ID </th>
+        <th> Name </th>
+        <th> Lastname </th>
+        <th> Course </th>
+        <th> Email </th>
+        <th> Seat No.</th>
+        <th> Date / Time</th>
+    </tr>
+    </thead>
+    <tbody>
 
-    </script>
-
+    </tbody>
+</table>
 </body>
 </html>

@@ -2,14 +2,19 @@ package com.dhammatorn.Controller;
 
 import com.dhammatorn.Entity.Student;
 import com.dhammatorn.Service.StudentService;
+import com.dhammatorn.Entity.Register;
 import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.List;
 
 //Rest deals with HTTP requests and the web - to - database controller
 @Controller
@@ -22,10 +27,22 @@ public class StudentController {
     //Autowired means springboot will instantiate the injection automatically
     private StudentService studentService;
 
-    //define the HTTP that this is a GET method
-    @RequestMapping(value = "/students", method = RequestMethod.GET)
+    // Registering
+    @GetMapping("/register")
+    public String registerForm(Model model) {
+        model.addAttribute("student", new Student());
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String registerSubmit(@ModelAttribute Student student) {
+        studentService.addStudent(student);
+        return "result";
+    }
+
     //function to return all students
-    public @ResponseBody Collection<Student> getAllStudent() {
+    @RequestMapping(value = "/students", method = RequestMethod.GET)
+    public @ResponseBody List<Student> getAllStudent() {
         return studentService.getAllStudent();
     }
 
@@ -34,23 +51,33 @@ public class StudentController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     //Pathvariable means u actually want the id to be the one you send from the url
     public @ResponseBody Student getStudentById(@PathVariable("id") int id) {
-        return studentService.getStudentById(id);
+        Optional<Student> maybeStudent = studentService.getStudentById(id);
+        if (maybeStudent.isPresent()) {
+            Student student = maybeStudent.get();
+            return student;
+        } else {
+            //error
+            Student student = new Student();
+            return student;
+        }
     }
 
-
-    //delete student function
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public @ResponseBody void deleteStudentById(@PathVariable("id") int id) {
-        studentService.removeStudentById(id);
+    @GetMapping(value = "/{id}/edituser")
+    public String edituserForm(Model model, @PathVariable("id") int id) {
+        Optional<Student> maybeStudent = studentService.getStudentById(id);
+        if (maybeStudent.isPresent()) {
+            Student student = maybeStudent.get();
+            model.addAttribute("student", student);
+        } else {
+            //error
+        }
+        return "edit_users";
     }
 
-
-    //handle student update function
-    //consumes tells the springboot to consume a JSON value sent by the function
-    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    //Request Body is requesting the student parameter
-    public @ResponseBody void updateStudent(@RequestBody Student student){
+    @PostMapping(value = "/{id}/edituser")
+    public String edituserSubmit(@ModelAttribute Student student) {
         studentService.updateStudent(student);
+        return "editresult";
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -58,16 +85,22 @@ public class StudentController {
         return "index";
     }
 
-    @RequestMapping(value = "/display", method = RequestMethod.GET)
-    public String display() {
+
+    // ADMIN PAGES
+
+    @GetMapping(value = "/admin/booking")
+    public String adminbooking(){
+        return "adminbooking";
+    }
+
+    @GetMapping(value = "/admin/manageaccounts")
+    public String manageaccounts(){
+        return "manage_account";
+    }
+
+    @GetMapping(value = "/display")
+    public String display(){
         return "display";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-        public String register(){
-            return "register";
-        }
-
-
 }
-
