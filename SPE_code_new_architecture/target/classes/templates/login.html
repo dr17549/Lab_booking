@@ -1,57 +1,41 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Login Page</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <style>
-    body {font-family: Arial, Helvetica, sans-serif;}
-    form {border: 3px solid #f1f1f1;}
-
-    input[type=text], input[type=password] {
-        width: 30%;
-        padding: 12px 10px;
-        margin: 0 auto;
-        display: block;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-        text-align: center;
-
-    }
-
-    button {
-        background-color: #4CAF50;
-        color: white;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        cursor: pointer;
-        width: 20%;
-    }
-
-    button:hover {
-        opacity: 0.8;
-    }
-    body {
-    background-image: url("images/background.jpeg");
-    text-align: center;
-    }
-    h1{
-      text-align: center;
-    }
-    </style>
+	<title>Login</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" media="screen" th:href="@{/css/login.css}"/>
 </head>
+
 <body>
-    <p><img src="https://mybristol.bris.ac.uk/portal/media/skins/universality/common/uob/images/logo-uob.svg" /></p></br>
-    <h1> Faculty of Engineering </h1>
-      <P>
-      Username:<br><br>
-      <input type="text" placeholder="Username" th:field="*{userid}" /></p><br>
-      Password:<br><br>
-      <input type="password" placeholder="Password" th:field="*{password}" /><br> <a th:href="@{forgot_password}"> Forgot Your Password? </a> <br>
-      <br></p>
-      <button type="submit" >Login</button> <br>
-      <label>
-            <input type="checkbox" checked="checked" name="remember"> Remember me
-      </label>
+    <div class="head">
+        <a href="http://www.bristol.ac.uk"><img src="https://mybristol.bris.ac.uk/portal/media/skins/universality/common/uob/images/logo-uob.svg" width="200";></a>
+        <a th:href="@{/}" style="color: #B01C2E; text-decoration:none;" title="Return to homepage" >LAB Booking System</a>
+    </div>
+
+    <form th:action="@{/login}" method="POST">
+        <div class="container">
+            <div class="input">
+                <h2>Login</h2>
+                <p>Login to use Lab Booking System</p>
+                <hr>
+
+                <div style="float:left;"><b>User Name</b></div>
+                <input type="text" id="username" name="username" required/>
+
+                <div style="float:left;"><b>Password</b></div>
+                <input type="password" id="password" name="password" required/>
+
+                <input type="checkbox" checked="checked" name="remember"> Remember me &emsp;&emsp;&emsp;&emsp;
+                <span class="psw">Forgot <a href="#">password?</a></span>
+
+            </div>
+            <div align="center" th:if="${param.error}">
+                <p style="font-size: 20; color: #FF1C19;">Username or Password invalid, please verify</p>
+            </div>
+
+            <p><button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit" th:text="Login"></button></p>
+        </div>
+    </form>
 </body>
 </html>
