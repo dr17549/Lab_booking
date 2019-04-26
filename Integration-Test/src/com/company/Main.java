@@ -26,8 +26,8 @@ public class Main {
         WebDriver driver = new FirefoxDriver(dc);
         driver.get("http://localhost:8080");
 
-
-        //Part 0 --- Register ----
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+//        Part 0 --- Register ----
 //        driver.findElement(By.xpath("//a[@id='register_test']")).click();
 //        driver.findElement(By.id("name")).sendKeys("test");
 //        driver.findElement(By.id("lastname")).sendKeys("testcase");
@@ -38,6 +38,11 @@ public class Main {
 ////        Select select = (Select)driver.findElement(By.id("course"));
 ////        select.selectByValue("EE");
 //        driver.findElement(By.id("ucard")).sendKeys("12345");
+//        WebElement scroll = driver.findElement(By.id("submit"));
+//
+////
+//        js.executeScript("arguments[0].scrollIntoView();", scroll);
+//        js.executeScript("arguments[0].click();", scroll);
 //        driver.findElement(By.xpath("//button[@id='submit']")).click();
 
 
@@ -62,7 +67,7 @@ public class Main {
 
         //scroll down
         WebElement Element = driver.findElement(By.id("1"));
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+//        JavascriptExecutor js = (JavascriptExecutor) driver;
 
         js.executeScript("arguments[0].scrollIntoView();", Element);
         js.executeScript("arguments[0].click();", Element);
@@ -107,9 +112,9 @@ public class Main {
 //        driver.findElement(By.xpath("//input[@id='select_All']")).click();
 
         //seats
-        WebElement checkbox = driver.findElement(By.id("admin_A2"));
+        WebElement checkbox = driver.findElement(By.id("sellect_All"));
         checkbox.click();
-        driver.findElement(By.xpath("//input[@id='A4']")).click();
+//        driver.findElement(By.xpath("//input[@id='A4']")).click();
 
 //        WebElement frame = ((FirefoxDriver) driver).findElementByCssSelector("input[id=A3]");
 //        frame.click();
@@ -123,7 +128,6 @@ public class Main {
         WebDriverWait wait = new WebDriverWait(driver, 20);
 //        wait.until(ExpectedConditions.elementToBeClickable(lastElementToLoad));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("return_to_home_test")));
-        System.out.println("120");
         driver.findElement(By.xpath("//a[@id='return_to_home_test']")).click();
         // --------------------------------------------------------------
         //END OF PART 5
